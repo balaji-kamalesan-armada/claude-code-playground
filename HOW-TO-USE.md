@@ -1,134 +1,79 @@
 # How To Use This Playground
 
-## What You Have
+## tl;dr
 
-Two folders with learning materials about Claude AI:
+**→ Go to [README.md](README.md) and pick a learning path**
 
-```
-01-CONTEXT/          # Learn what Claude sees
-02-MEMORY/           # Learn what Claude remembers
-```
-
-## How To Use It
-
-### Option 1: Read and Learn (30 minutes)
-
-**Just read the files in order:**
-
-1. **Context (15 min)**
-   ```
-   cd 01-CONTEXT
-
-   # Read these in order:
-   1. README.md - what context is
-   2. example-without-context.js - bad example
-   3. example-with-context.js - good example
-   4. EXERCISE.md - try the exercises
-   ```
-
-2. **Memory (15 min)**
-   ```
-   cd 02-MEMORY
-
-   # Read these in order:
-   1. README.md - what memory is
-   2. scenario-without-memory.md - the pain
-   3. scenario-with-memory.md - the solution
-   4. EXERCISE.md - try the exercises
-   ```
-
-**That's it!** You now understand context and memory.
+That's the main entry point with everything you need:
+- 3 clear learning paths (10 min, 90 min, 4-5 hrs)
+- Module dependency diagram
+- `/remember` and `/compact` usage guides
+- Success checklists
 
 ---
 
-### Option 2: Just Read the READMEs (10 minutes)
+## Quick Reference
 
-**Fastest way to get the concepts:**
+### If You Have 10 Minutes
+Read these two files:
+1. [01-CONTEXT/README.md](01-CONTEXT/README.md)
+2. [02-MEMORY/README.md](02-MEMORY/README.md)
 
-```bash
-# Just open these two files:
-01-CONTEXT/README.md    # 5 min read
-02-MEMORY/README.md     # 5 min read
-```
+### If You Have 90 Minutes (Recommended)
+1. Context (20 min) - [README](01-CONTEXT/README.md) + [EXAMPLES](01-CONTEXT/EXAMPLES.md)
+2. Memory (20 min) - [README](02-MEMORY/README.md) + [EXAMPLES](02-MEMORY/EXAMPLES.md)
+3. Rules (20 min) - [README](05-RULES/README.md) + [EXAMPLES](05-RULES/EXAMPLES.md)
+4. Compare START vs BEST (30 min)
 
-**Then apply to your projects!**
+### If You Have 4-5 Hours
+Complete all 5 modules:
+1. [Context](01-CONTEXT/README.md) (30 min)
+2. [Memory](02-MEMORY/README.md) (30 min)
+3. [Session Context](03-SESSION-CONTEXT/README.md) (45 min)
+4. [Skills](04-SKILLS/README.md) (45 min)
+5. [Rules](05-RULES/README.md) (45 min)
+
+Plus practice transforming START-REPO → BEST-REPO (2 hrs)
 
 ---
 
-### Option 3: Do the Exercises (30 minutes)
+## Module Structure
 
-**Hands-on learning:**
-
-```bash
-# 1. Open Claude Code CLI
-# 2. Navigate to the playground folder
-# 3. Follow the exercises:
-
-cd 01-CONTEXT
-# Do EXERCISE.md with Claude
-
-cd ../02-MEMORY
-# Do EXERCISE.md with Claude
+Every module has just 2 files:
 ```
+MODULE-NAME/
+├── README.md    → Concepts and explanations
+└── EXAMPLES.md  → Practice, templates, exercises
+```
+
+Simple. No overwhelm.
 
 ---
 
 ## For Teams
 
-**Share this folder with your team:**
+**1-Day Workshop:**
 
-1. Everyone reads the README files (10 min each)
-2. Discuss examples in team meeting (30 min)
-3. Apply to your team's projects
-4. Create team standards based on learnings
+**Morning (3 hours):**
+- Context + Memory (90 min)
+- Session Context (60 min)
+- Q&A (30 min)
 
----
-
-## What You'll Learn
-
-### From 01-CONTEXT:
-- ✅ What context means (code, comments, files, conversation)
-- ✅ How to add context to your code
-- ✅ Why context matters for Claude
-
-### From 02-MEMORY:
-- ✅ What memory is (persistent facts)
-- ✅ Memory vs Context difference
-- ✅ How to use `/remember` command
-- ✅ What to remember (and what not to)
+**Afternoon (3 hours):**
+- Skills + Rules (90 min)
+- START → BEST transformation (60 min)
+- Team standards (30 min)
 
 ---
 
-## After Learning
+## Need More Details?
 
-**Apply to your projects:**
+**→ [Full README.md](README.md)** has everything:
+- Complete learning paths
+- Module dependencies
+- Command usage guides
+- FAQ
+- Success metrics
+- ROI analysis
 
-1. **Add Context** to your code:
-   - Use descriptive names
-   - Add comments explaining "why"
-   - Create README.md files
-
-2. **Use Memory** for your projects:
-   ```bash
-   /remember Project: [Your project]
-   /remember Tech: [Your tech stack]
-   /remember Architecture: [Your pattern]
-   ```
-
----
-
-## If You Get Stuck
-
-Just ask Claude:
-```
-"I'm learning about context from the playground.
-Can you explain [specific question]?"
-```
-
----
-
-## That's It!
-
-**Two folders. 8 files. 30 minutes.**
-
-You now know how to work better with Claude! 🎯
+**That's your main resource. Start there.** 🚀

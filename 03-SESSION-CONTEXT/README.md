@@ -239,11 +239,21 @@ Limit: None     Limit: 200k tokens    Limit: Per message
   - How memory saves tokens
   - When to restart
   - Real examples & exercises
+  - Practical context exhaustion scenarios
+
+**Want to experience hitting the limit?**
+→ [CONTEXT-EXHAUSTION-CHALLENGE.md](CONTEXT-EXHAUSTION-CHALLENGE.md) - Deliberately exhaust context:
+  - 6 practical challenges to hit the 200k token limit
+  - Learn warning signs before it happens
+  - Compare bad vs good session management
+  - Develop your personal strategy
+  - Safe environment to break things and learn!
 
 ## Next Steps
 
 1. Read [EXAMPLES.md](EXAMPLES.md) for complete guide
-2. Then move to [Module 4: Skills](../04-SKILLS/README.md)
+2. Try [CONTEXT-EXHAUSTION-CHALLENGE.md](CONTEXT-EXHAUSTION-CHALLENGE.md) to feel the limits
+3. Then move to [Module 4: Skills](../04-SKILLS/README.md)
 
 ---
 

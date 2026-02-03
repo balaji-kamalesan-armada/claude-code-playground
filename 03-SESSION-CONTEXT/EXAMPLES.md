@@ -254,7 +254,7 @@ Close if:                Continue if:
 
 ---
 
-## Exercise: Monitor Your Session
+## Exercise 1: Monitor Your Session
 
 Try this:
 
@@ -277,6 +277,310 @@ Try this:
    - At what point should I restart?
    - Could I use `/compact` instead?
    - Should I use memory to save tokens?
+
+---
+
+## Exercise 2: Deliberately Exhaust Context 🔥
+
+**Goal:** Experience hitting the context limit so you know what it feels like
+
+### Scenario 1: Read Large Files Repeatedly
+
+**What to do:**
+```
+1. Start new Claude session
+2. Read a large file (>2000 lines): "Read src/large-file.ts"
+3. Ask Claude to explain different parts of it
+4. Read another large file
+5. Ask Claude to compare them
+6. Read 5-10 more large files
+7. Keep asking questions about each file
+8. Watch token count climb: 50k → 100k → 150k → 180k+
+```
+
+**What you'll experience:**
+- Token count grows rapidly with each file read
+- Around 150k tokens, Claude may start being less detailed
+- Near 180k tokens, you'll notice degraded quality
+- At ~200k tokens, you can't send more messages
+
+**When this happens in real work:**
+- Reading too many files without restarting
+- Long debugging sessions with multiple file reads
+- Code reviews of large PRs in one session
+
+---
+
+### Scenario 2: Generate Large Amounts of Code
+
+**What to do:**
+```
+1. Start new session
+2. Ask: "Create a complete Express REST API with 10 endpoints"
+3. Claude generates ~1000 lines of code (15k tokens)
+4. Ask: "Add validation for all endpoints"
+5. Claude generates ~500 more lines (8k tokens)
+6. Ask: "Add tests for everything"
+7. Claude generates ~800 lines tests (12k tokens)
+8. Ask: "Add authentication middleware"
+9. Ask: "Add error handling"
+10. Ask: "Add logging"
+11. Ask: "Add documentation"
+12. Keep going...
+```
+
+**What you'll experience:**
+- Each large code generation uses 10-20k tokens
+- After 8-10 generations, you're at 100k+ tokens
+- Around 150k, Claude's responses get shorter
+- Context window fills with all previous code
+- Eventually can't send more messages
+
+**When this happens in real work:**
+- Building large features in one session
+- Multiple refactoring iterations
+- Generating extensive test suites
+
+---
+
+### Scenario 3: Long Conversation with Context Build-up
+
+**What to do:**
+```
+1. Start debugging a complex issue
+2. Ask Claude questions, get answers
+3. Share error logs (paste large log files)
+4. Ask follow-up questions
+5. Try solutions, share results
+6. More questions, more context
+7. Keep conversation going for 2+ hours
+8. Never close, never /compact
+```
+
+**What you'll experience:**
+- Gradual token accumulation: +5k per exchange
+- After 50+ exchanges: 100k+ tokens
+- Claude starts asking "What was X again?"
+- Quality degrades slowly, easy to miss
+- Finally hits limit
+
+**When this happens in real work:**
+- Long debugging sessions
+- Complex architecture discussions
+- Pair programming sessions
+- Code reviews with lots of back-and-forth
+
+---
+
+### Scenario 4: Forced Exhaustion Challenge 🎯
+
+**Deliberate exercise to hit the wall:**
+
+```bash
+# Do this intentionally to feel the limit:
+
+1. Start Claude session
+2. Check token count: 0 / 200,000
+
+3. Read 10 large files from your codebase:
+   "Read src/file1.ts"
+   "Read src/file2.ts"
+   ... (repeat for all 10)
+
+   Token: ~80,000 / 200,000
+
+4. Ask Claude to analyze all files:
+   "Compare the architecture across these files"
+   "Identify code duplication"
+   "Suggest refactoring opportunities"
+
+   Token: ~120,000 / 200,000
+
+5. Generate code based on analysis:
+   "Create a new service that consolidates logic"
+   "Add tests for the new service"
+   "Add documentation"
+
+   Token: ~160,000 / 200,000
+
+6. Keep asking questions:
+   "Explain how this integrates"
+   "What are the edge cases"
+   "Show me error handling"
+
+   Token: ~185,000 / 200,000
+
+7. Try to continue...
+   Token: ~198,000 / 200,000
+
+   ⚠️ WARNING: Context nearly full
+
+8. One more message...
+   🔥 ERROR: Cannot send message, context exhausted
+```
+
+**What you'll learn:**
+- Exactly what "context exhaustion" feels like
+- Warning signs before hitting the limit
+- Why strategic session management matters
+- When `/compact` could have helped
+- When to restart sessions
+
+---
+
+### Recovery Strategies After Exhaustion
+
+**When you hit the limit:**
+
+**Option 1: Start Fresh Session** (Best)
+```
+1. Close Claude completely
+2. Open new session
+3. Use /remember for key facts
+4. Continue with fresh context
+```
+
+**Option 2: Use /compact Earlier** (Prevention)
+```
+Before hitting limit:
+- At 100k tokens: /compact
+- Freed space: Continue working
+- At 130k again: /compact or restart
+```
+
+**Option 3: Save Progress First**
+```
+1. Copy important context/decisions
+2. Close session
+3. Open new session
+4. Paste key information back
+5. Continue
+```
+
+---
+
+### Signs You're Approaching Limit
+
+**Watch for these warnings:**
+
+1. **Token count visible:**
+   ```
+   150k+ = Start planning restart
+   170k+ = Finish current task
+   190k+ = Can't continue much longer
+   ```
+
+2. **Claude behavior changes:**
+   - Shorter responses
+   - Asks about things discussed earlier
+   - Less detailed explanations
+   - "Can you remind me about X?"
+
+3. **Quality drops:**
+   - More generic answers
+   - Missing context from earlier
+   - Inconsistent with previous work
+   - Repetition of suggestions
+
+---
+
+### Best Practices to Avoid Exhaustion
+
+1. **Monitor tokens constantly**
+   - Check after every major operation
+   - Plan restart before 150k
+
+2. **Use memory strategically**
+   - Store facts once
+   - Never repeat tech stack
+   - 0 tokens for persistent info
+
+3. **Close sessions between tasks**
+   - One feature = One session
+   - Don't string together unrelated work
+   - Fresh context = Better quality
+
+4. **Use /compact wisely**
+   - When continuing same feature
+   - At 100k-130k token range
+   - Not a substitute for restart
+
+5. **Avoid reading unnecessary files**
+   - Only read what you need
+   - Don't read entire codebase
+   - Read specific files for specific tasks
+
+---
+
+## Real-World Exhaustion Example
+
+**What happened:**
+```
+Developer building payment integration:
+  9 AM: Started session, read Stripe docs (20k)
+ 10 AM: Read existing payment code (15k)
+ 11 AM: Generated new integration (25k)
+ 12 PM: Fixed bugs, read more files (30k)
+  1 PM: Added tests (20k)
+  2 PM: Refactored code (25k)
+  3 PM: Added error handling (20k)
+  4 PM: Documentation (15k)
+
+Total: 170k tokens
+Quality: Excellent → Good → Degraded
+Result: Had to restart, lost context
+```
+
+**Better approach:**
+```
+SESSION 1 (9-10 AM): Research
+  - Read Stripe docs
+  - Plan approach
+  - Close at 30k tokens ✅
+
+SESSION 2 (10-11 AM): Implementation
+  - Build integration
+  - Close at 40k tokens ✅
+
+SESSION 3 (11 AM-12 PM): Testing
+  - Add tests
+  - Fix bugs
+  - Close at 35k tokens ✅
+
+SESSION 4 (1-2 PM): Polish
+  - Error handling
+  - Documentation
+  - Close at 30k tokens ✅
+
+Total: 135k tokens spread across 4 sessions
+Quality: Excellent throughout ✨
+```
+
+---
+
+## Try It Yourself: Context Exhaustion Lab
+
+**Controlled experiment:**
+
+1. **Week 1: Bad habits**
+   - Work in single sessions all day
+   - Never restart
+   - Read lots of files
+   - Track when you hit issues
+
+2. **Week 2: Good habits**
+   - Restart between tasks
+   - Use memory for facts
+   - Monitor tokens
+   - Compare experience
+
+3. **Document:**
+   - When did quality drop?
+   - What token count causes issues?
+   - How does restart help?
+   - What's your optimal session length?
+
+**You'll discover your personal thresholds and develop intuition for session management!**
 
 ---
 
